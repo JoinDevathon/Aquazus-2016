@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftZombie;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class MoveForward extends Instruction {
@@ -30,8 +31,8 @@ public class MoveForward extends Instruction {
 	}
 	
 	@Override
-	public void edit() {
-		
+	public MoveForward clone() {
+		return new MoveForward();
 	}
 	
 	@Override
