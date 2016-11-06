@@ -116,6 +116,9 @@ public class ScriptEditor implements Listener {
 				}
 			} else if (event.getClickedInventory().getName().equalsIgnoreCase("Script Editor")) {
 				ItemStack item = event.getCurrentItem();
+				if (item.getType() == Material.BOOK) {
+					event.setCancelled(true);
+				}
 				if (event.getAction() == InventoryAction.PICKUP_HALF) {
 					event.setCancelled(true);
 					item.setType(Material.AIR);

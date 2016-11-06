@@ -6,6 +6,7 @@ The Script Editor is used to edit the script. The script is looped and an instru
 
 Known bugs / missing features:
 - Data doesn't save after a reload/restart
+- When using look at left/right, we can't see the entity looking to the new direction but it's working (If you try move forward, it go to the new direction)
 
 I'm very sorry for the bugs. I only had 8 hours of code instead of 25 because of internet and computer problems.
 
