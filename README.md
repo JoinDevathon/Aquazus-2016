@@ -1,3 +1,11 @@
+# PuzzleBots
+PuzzleBots is a plugin designed to make bots with a simple user interface.
+To get started, craft a bot using this recipe: http://i.imgur.com/efzo9es.png
+Then place it. You can right click the bot to open his GUI, there you can start/stop/pause the script, open script editor, rename your bot or destroy it.
+The Script Editor is used to edit the script. The script is looped and an instruction run every second.
+
+I'm very sorry for the bugs. I only had 8 hours of code instead of 25 because of internet and computer problems.
+
 # Devathon Project
 This is the base layout for your Devathon Project. It includes several scripts to make running incredibly easy on Windows, Mac, and Linux.
 

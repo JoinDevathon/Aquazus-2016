@@ -27,17 +27,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.devathon.contest2016.PuzzleBotsPlugin;
 import org.devathon.contest2016.instructions.Instruction;
 
+import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 
 public class Bot implements Listener {
 
 	private String owner;
+	private Location saveLoc = null;
 	private Entity entity;
 	private BotsManager botsManager;
 	public PuzzleBotsPlugin plugin;
 	private BotState state = BotState.INACTIVE;
 	private int currentInstruction = 0;
 	private int timerId;
+	private String customName = null;
 	private int tickDelay = 20;
 	private boolean rename = false;
 	public HashMap<Integer, Instruction> instructions = new HashMap<>();
@@ -52,7 +55,11 @@ public class Bot implements Listener {
 		owner.setCollidable(false);
 		entityZombie.setBaby(true);
 		entityZombie.setCanPickupItems(false);
-		entityZombie.setCustomName("§a" + owner.getName() + "'s §ePuzzleBot");
+		if (customName == null) {
+			entityZombie.setCustomName("§a" + owner.getName() + "'s §ePuzzleBot");
+		} else {
+			entityZombie.setCustomName(customName);
+		}
 		entityZombie.setCustomNameVisible(true);
 		entityZombie.getEquipment().setHelmet(new ItemStack(Material.IRON_HELMET));
 		entityZombie.getEquipment().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
@@ -74,6 +81,11 @@ public class Bot implements Listener {
 		entity.getLocation().getWorld().spawnParticle(Particle.CLOUD, entity.getLocation(), 10);
 		entity.remove();
 		botsManager.removeBot(this);
+	}
+	
+	public void save() {
+		saveLoc = entity.getLocation();
+		entity.remove();
 	}
 	
 	public void tick() {
@@ -124,8 +136,9 @@ public class Bot implements Listener {
 		}
 		if (rename) {
 			rename = false;
-			entity.setCustomName(event.getMessage());
+			entity.setCustomName(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
 			player.sendMessage("§aYou have renamed your bot !");
+			customName = ChatColor.translateAlternateColorCodes('&', event.getMessage());
 		}
 	}
 	

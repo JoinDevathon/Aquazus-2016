@@ -2,7 +2,8 @@ package org.devathon.contest2016.instructions;
 
 public enum Instructions {
 
-	MOVE_FORWARD(new MoveForward());
+	MOVE_FORWARD(new MoveForward()),
+	BREAK_BLOCK(new BreakBlock());
 	
 	private Instruction instruction;
 	
