@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftZombie;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,17 +15,17 @@ public class MoveForward extends Instruction {
 	}
 	
 	@Override
-	public void execute() {
-		Location loc = this.entity.getLocation();
-		float yaw = this.entity.getLocation().getYaw();
-		if (yaw == 90.0) {
-			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX() - parameter, loc.getY(), loc.getZ(), 1);
-		} else if (yaw == 0.0) {
-			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX(), loc.getY(), loc.getZ() + parameter, 1);
-		} else if (yaw == -90.0) {
-			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX() + parameter, loc.getY(), loc.getZ(), 1);
-		} else if (yaw == -180.0) {
-			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX(), loc.getY(), loc.getZ() - parameter, 1);
+	public void execute(Entity entity) {
+		Location loc = entity.getLocation();
+		int yaw = (int) entity.getLocation().getYaw();
+		if (yaw == 90) {
+			entity.teleport(new Location(loc.getWorld(), loc.getX() - parameter, loc.getY(), loc.getZ()));
+		} else if (yaw == 0) {
+			entity.teleport(new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ() + parameter));
+		} else if (yaw == -90) {
+			entity.teleport(new Location(loc.getWorld(), loc.getX() + parameter, loc.getY(), loc.getZ()));
+		} else if (yaw == -180) {
+			entity.teleport(new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ() - parameter));
 		}
 	}
 	

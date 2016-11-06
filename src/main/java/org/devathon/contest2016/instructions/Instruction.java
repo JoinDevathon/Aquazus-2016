@@ -11,13 +11,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 public abstract class Instruction {
 
 	protected ItemStack icon;
-	protected Entity entity;
 	protected int parameter;
 	
-	public abstract void execute();
+	public abstract void execute(Entity entity);
 	
-	public void setEntity(Entity entity) {
-		this.entity = entity;
+	public int getParameter() {
+		return this.parameter;
 	}
 	
 	public abstract ItemStack getIcon();

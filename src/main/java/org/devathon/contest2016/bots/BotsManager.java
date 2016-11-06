@@ -19,4 +19,8 @@ public class BotsManager {
 		Bot bot = new Bot(owner, loc, this, plugin);
 		bots.put(bot, owner.getUniqueId().toString());
 	}
+	
+	public void removeBot(Bot bot) {
+		bots.remove(bot);
+	}
 }

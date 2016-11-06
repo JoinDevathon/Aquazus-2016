@@ -28,7 +28,7 @@ public class PlayerListener implements Listener {
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && item != null && item.isSimilar(plugin.getSpawnItem())) {
 			player.getInventory().remove(item);
 			player.updateInventory();
-			plugin.getBotsManager().createBot(player, event.getClickedBlock().getLocation().add(0, 1, 0));
+			plugin.getBotsManager().createBot(player, event.getClickedBlock().getLocation().add(0.5, 1, 0.5));
 		}
 	}
 }

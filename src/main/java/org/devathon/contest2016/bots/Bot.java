@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -16,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -34,6 +37,9 @@ public class Bot implements Listener {
 	public PuzzleBotsPlugin plugin;
 	private BotState state = BotState.INACTIVE;
 	private int currentInstruction = 0;
+	private int timerId;
+	private int tickDelay = 20;
+	private boolean rename = false;
 	public HashMap<Integer, Instruction> instructions = new HashMap<>();
 	
 	public Bot(Player owner, Location loc, BotsManager botsManager, PuzzleBotsPlugin plugin) {
@@ -59,6 +65,31 @@ public class Bot implements Listener {
         compound.setByte("NoAI", (byte) 1);
         nmsEntity.f(compound);
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        tick();
+	}
+	
+	public void remove() {
+		Bukkit.getScheduler().cancelTask(timerId);
+		entity.getLocation().getWorld().playSound(entity.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1f, 1f);
+		entity.getLocation().getWorld().spawnParticle(Particle.CLOUD, entity.getLocation(), 10);
+		entity.remove();
+		botsManager.removeBot(this);
+	}
+	
+	public void tick() {
+		timerId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				if (state == BotState.ACTIVE) {
+					if (instructions.get(currentInstruction) == null) {
+						currentInstruction = 0;
+					}
+					Instruction instruction = instructions.get(currentInstruction);
+					instruction.execute(entity);
+					currentInstruction++;
+				}
+			}
+		}, 0L, tickDelay);
 	}
 	
 	@EventHandler
@@ -86,8 +117,24 @@ public class Bot implements Listener {
 	}
 	
 	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		Player player = event.getPlayer();
+		if (!owner.equals(player.getUniqueId().toString())) {
+			return;
+		}
+		if (rename) {
+			rename = false;
+			entity.setCustomName(event.getMessage());
+			player.sendMessage("§aYou have renamed your bot !");
+		}
+	}
+	
+	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
+		if (!owner.equals(player.getUniqueId().toString())) {
+			return;
+		}
 		Inventory inv = event.getInventory();
 		ItemStack clicked = event.getCurrentItem();
 		if (clicked == null) {
@@ -98,22 +145,21 @@ public class Bot implements Listener {
 			if (clicked.getType() == Material.REDSTONE) {
 				new ScriptEditor(player, this);
 			} else if (clicked.getType() == Material.NAME_TAG) {
-				//TODO: Rename bot
+				player.closeInventory();
+				rename = true;
+				player.sendMessage("§ePlease now type the name desired for your bot :");
 			} else if (clicked.getType() == Material.TNT) {
-				//TODO: Destroy bot
+				remove();
 			} else if (clicked.getType() == Material.WOOL && clicked.getDurability() != (short) 15) {
 				if (clicked.getDurability() == (short) 5) {
-					//TODO: Start
 					this.state = BotState.ACTIVE;
 				} else if (clicked.getDurability() == (short) 4) {
-					//TODO: Resume
 					this.state = BotState.ACTIVE;
 				} else if (clicked.getDurability() == (short) 1) {
-					//TODO: Pause
 					this.state = BotState.PAUSED;
 				} else if (clicked.getDurability() == (short) 14) {
-					//TODO: Stop
 					this.state = BotState.INACTIVE;
+					this.currentInstruction = 0;
 				}
 				player.closeInventory();
 				openGui(player);
