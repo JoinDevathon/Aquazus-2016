@@ -3,12 +3,14 @@ package org.devathon.contest2016.instructions;
 import java.util.Arrays;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftZombie;
+import org.bukkit.inventory.ItemStack;
 
 public class MoveForward extends Instruction {
 	
-	public MoveForward(int blocks) {
-		this.parameters = Arrays.asList(new Parameter(ParameterType.NUMBER, ""+blocks));
+	public MoveForward() {
+		this.parameters = Arrays.asList(new Parameter(ParameterType.NUMBER, null));
 	}
 	
 	@Override
@@ -25,5 +27,18 @@ public class MoveForward extends Instruction {
 		} else if (yaw == -180.0) {
 			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX(), loc.getY(), loc.getZ() - blocks, 1);
 		}
+	}
+	
+	@Override
+	public void edit() {
+		
+	}
+	
+	@Override
+	public ItemStack getIcon() {
+		if (this.parameters.get(0).getValue() == null) {
+			return this.generateIron(Material.IRON_BOOTS, 1, (short) 0, "§aMove Forward", Arrays.asList("§eParameters:", "§e - Amount of blocks"));
+		}
+		return this.generateIron(Material.IRON_BOOTS, 1, (short) 0, "§aMove Forward", Arrays.asList("§e" + Integer.parseInt(this.parameters.get(0).getValue()) + " blocks"));
 	}
 }

@@ -31,10 +31,10 @@ public class Bot implements Listener {
 	private String owner;
 	private Entity entity;
 	private BotsManager botsManager;
-	private PuzzleBotsPlugin plugin;
+	public PuzzleBotsPlugin plugin;
 	private BotState state = BotState.INACTIVE;
 	private int currentInstruction = 0;
-	private HashMap<Integer, Instruction> instructions = new HashMap<>();
+	public HashMap<Integer, Instruction> instructions = new HashMap<>();
 	
 	public Bot(Player owner, Location loc, BotsManager botsManager, PuzzleBotsPlugin plugin) {
 		this.owner = owner.getUniqueId().toString();
