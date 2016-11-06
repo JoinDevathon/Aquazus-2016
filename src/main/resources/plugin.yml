@@ -1,6 +1,6 @@
-name: DimensionalMachines
+name: PuzzleBots
 description: A project for the Devathon contest
 version: 1.0.0
 author: Aquazus
 
-main: org.devathon.contest2016.DimensionalMachinesPlugin
+main: org.devathon.contest2016.PuzzleBotsPlugin
