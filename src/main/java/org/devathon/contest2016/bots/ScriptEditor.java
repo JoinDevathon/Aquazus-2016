@@ -65,7 +65,7 @@ public class ScriptEditor implements Listener {
 				item.setAmount(1);
 			}
 		}
-		ItemStack help = new ItemStack(Material.STAINED_GLASS_PANE, 64, (short) 8);
+		ItemStack help = new ItemStack(Material.BOOK, 1);
 		ItemMeta helpIm = help.getItemMeta();
 		helpIm.setDisplayName("§9Protip");
 		helpIm.setLore(Arrays.asList("§aRight-click = remove"));
