@@ -1,5 +1,6 @@
 package org.devathon.contest2016.bots;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.devathon.contest2016.PuzzleBotsPlugin;
+import org.devathon.contest2016.instructions.Instruction;
 
 import net.minecraft.server.v1_10_R1.NBTTagCompound;
 
@@ -32,7 +34,7 @@ public class Bot implements Listener {
 	private PuzzleBotsPlugin plugin;
 	private BotState state = BotState.INACTIVE;
 	private int currentInstruction = 0;
-	//private HashMap<Integer>
+	private HashMap<Integer, Instruction> instructions = new HashMap<>();
 	
 	public Bot(Player owner, Location loc, BotsManager botsManager, PuzzleBotsPlugin plugin) {
 		this.owner = owner.getUniqueId().toString();

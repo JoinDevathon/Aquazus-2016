@@ -15,14 +15,14 @@ public class MoveForward extends Instruction {
 	public void execute() {
 		int blocks = Integer.parseInt(this.parameters.get(0).getValue());
 		Location loc = this.entity.getLocation();
-		float pitch = this.entity.getLocation().getPitch();
-		if (pitch == 90.0) {
+		float yaw = this.entity.getLocation().getYaw();
+		if (yaw == 90.0) {
 			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX() - blocks, loc.getY(), loc.getZ(), 1);
-		} else if (pitch == 0.0) {
+		} else if (yaw == 0.0) {
 			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX(), loc.getY(), loc.getZ() + blocks, 1);
-		} else if (pitch == -90.0) {
+		} else if (yaw == -90.0) {
 			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX() + blocks, loc.getY(), loc.getZ(), 1);
-		} else if (pitch == -180.0) {
+		} else if (yaw == -180.0) {
 			((CraftZombie)this.entity).getHandle().getNavigation().a(loc.getX(), loc.getY(), loc.getZ() - blocks, 1);
 		}
 	}
