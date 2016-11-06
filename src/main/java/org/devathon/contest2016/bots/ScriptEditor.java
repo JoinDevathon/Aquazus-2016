@@ -103,7 +103,6 @@ public class ScriptEditor implements Listener {
 				ItemStack item = event.getCurrentItem();
 				if (itemToRawInstruction.containsKey(item)) {
 					Instruction instruction = itemToRawInstruction.get(item).clone();
-					instruction.handleClick(event.getAction());
 					menu.addItem(instruction.getIcon());
 					itemToInstruction.put(instruction.getIcon(), instruction);
 				}

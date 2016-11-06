@@ -2,7 +2,7 @@
 PuzzleBots is a plugin designed to make bots with a simple user interface.
 To get started, craft a bot using this recipe: http://i.imgur.com/efzo9es.png
 Then place it. You can right click the bot to open his GUI, there you can start/stop/pause the script, open script editor, rename your bot or destroy it.
-The Script Editor is used to edit the script. The script is looped and an instruction run every second.
+The Script Editor is used to edit the script. The script is looped and an instruction run every second. An instruction is an item, they are run in the inventory order. Like if you were reading a book.
 
 Known bugs / missing features:
 - Data doesn't save after a reload/restart
