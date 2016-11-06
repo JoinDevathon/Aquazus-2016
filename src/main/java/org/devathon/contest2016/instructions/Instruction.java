@@ -2,19 +2,17 @@ package org.devathon.contest2016.instructions;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.devathon.contest2016.bots.ScriptEditor;
 
 public abstract class Instruction {
 
 	protected ItemStack icon;
 	protected Entity entity;
-	protected List<Parameter> parameters;
+	protected int parameter;
 	
 	public abstract void execute();
 	
@@ -24,13 +22,7 @@ public abstract class Instruction {
 	
 	public abstract ItemStack getIcon();
 	
-	public void edit(Player player) {
-		if (parameters.isEmpty()) {
-			ScriptEditor.instances.get(player.getUniqueId()).addEntry(player, this);
-			return;
-		}
-		
-	}
+	public abstract void handleClick(InventoryAction action);
 	
 	public abstract Instruction clone();
 	

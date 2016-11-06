@@ -2,19 +2,17 @@ package org.devathon.contest2016.instructions;
 
 public class Parameter {
 
-	private ParameterType type;
-	private String value;
+	private int value;
 	
-	public Parameter(ParameterType type, String value) {
-		this.type = type;
+	public Parameter(int value) {
 		this.value = value;
 	}
 	
-	public ParameterType getType() {
-		return this.type;
+	public int getValue() {
+		return this.value;
 	}
 	
-	public String getValue() {
-		return this.value;
+	public void setValue(int value) {
+		this.value = value;
 	}
 }

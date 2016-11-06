@@ -25,7 +25,6 @@ public class ScriptEditor implements Listener {
 	private ItemStack[] backup;
 	private HashMap<ItemStack, Instruction> itemToInstruction = new HashMap<>();
 	private HashMap<ItemStack, Instruction> itemToRawInstruction = new HashMap<>();
-	private boolean editing = false;
 
 	public ScriptEditor(Player player, Bot bot) {
 		this.uuid = player.getUniqueId();
@@ -68,6 +67,7 @@ public class ScriptEditor implements Listener {
 				count++;
 			}
 		}
+		bot.instructions = instructions;
 		instances.remove(uuid);
 		itemToInstruction = null;
 		itemToRawInstruction = null;
@@ -78,14 +78,15 @@ public class ScriptEditor implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (!editing && event.getWhoClicked().getUniqueId().equals(uuid)) {
+		if (event.getWhoClicked().getUniqueId().equals(uuid)) {
 			if (!event.getClickedInventory().getName().equalsIgnoreCase("Script Editor")) {
-				Player player = (Player) event.getWhoClicked();
 				event.setCancelled(true);
 				ItemStack item = event.getCurrentItem();
 				if (itemToRawInstruction.containsKey(item)) {
-					editing = true;
-					itemToRawInstruction.get(item).clone().edit(player);
+					Instruction instruction = itemToRawInstruction.get(item).clone();
+					instruction.handleClick(event.getAction());
+					menu.addItem(instruction.getIcon());
+					itemToInstruction.put(instruction.getIcon(), instruction);
 				}
 			}
 		}
@@ -93,7 +94,7 @@ public class ScriptEditor implements Listener {
 	
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		if (!editing && event.getPlayer().getUniqueId().equals(uuid)) {
+		if (event.getPlayer().getUniqueId().equals(uuid)) {
 			close();
 		}
 	}
