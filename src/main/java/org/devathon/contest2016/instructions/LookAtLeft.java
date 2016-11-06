@@ -16,13 +16,13 @@ public class LookAtLeft extends Instruction {
 		Location loc = entity.getLocation();
 		int yaw = (int) entity.getLocation().getYaw();
 		if (yaw == 90) {
-			loc.setYaw(0f);
+			loc.setYaw(0);
 		} else if (yaw == 0) {
-			loc.setYaw(-90f);
+			loc.setYaw(-90);
 		} else if (yaw == -90) {
-			loc.setYaw(-180f);
+			loc.setYaw(-180);
 		} else if (yaw == -180) {
-			loc.setYaw(90f);
+			loc.setYaw(90);
 		}
 		entity.teleport(loc);
 	}
