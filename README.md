@@ -4,6 +4,9 @@ To get started, craft a bot using this recipe: http://i.imgur.com/efzo9es.png
 Then place it. You can right click the bot to open his GUI, there you can start/stop/pause the script, open script editor, rename your bot or destroy it.
 The Script Editor is used to edit the script. The script is looped and an instruction run every second.
 
+Known bugs / missing features:
+- Data doesn't save after a reload/restart
+
 I'm very sorry for the bugs. I only had 8 hours of code instead of 25 because of internet and computer problems.
 
 # Devathon Project

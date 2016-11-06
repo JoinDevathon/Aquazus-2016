@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -43,6 +44,7 @@ public class Bot implements Listener {
 	private String customName = null;
 	private int tickDelay = 20;
 	private boolean rename = false;
+	private boolean inGui = false;
 	public HashMap<Integer, Instruction> instructions = new HashMap<>();
 	
 	public Bot(Player owner, Location loc, BotsManager botsManager, PuzzleBotsPlugin plugin) {
@@ -135,6 +137,7 @@ public class Bot implements Listener {
 			return;
 		}
 		if (rename) {
+			event.setCancelled(true);
 			rename = false;
 			entity.setCustomName(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
 			player.sendMessage("§aYou have renamed your bot !");
@@ -146,6 +149,9 @@ public class Bot implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
 		if (!owner.equals(player.getUniqueId().toString())) {
+			return;
+		}
+		if (!inGui) {
 			return;
 		}
 		Inventory inv = event.getInventory();
@@ -180,6 +186,13 @@ public class Bot implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onInventoryClose(InventoryCloseEvent event) {
+		if (event.getInventory().getName().startsWith("State: ") && event.getPlayer().getUniqueId().toString().equals(owner)) {
+			inGui = false;
+		}
+	}
+	
 	public void openGui(Player player) {
 		Inventory mainMenu = Bukkit.createInventory(Bukkit.getPlayer(UUID.fromString(owner)), 9, "State: " + state.getText());
 		mainMenu.setItem(0, generateButton(Material.REDSTONE, 1, (short) 0, "§aScript Editor"));
@@ -199,6 +212,7 @@ public class Bot implements Listener {
 			mainMenu.setItem(8, generateButton(Material.WOOL, 1, (short) 14, "§cStop"));
 		}
 		player.openInventory(mainMenu);
+		inGui = true;
 	}
 	
 	private ItemStack generateButton(Material material, int amount, short damage, String name) {
