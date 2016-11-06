@@ -10,4 +10,11 @@ public class Parameter {
 		this.value = value;
 	}
 	
+	public ParameterType getType() {
+		return this.type;
+	}
+	
+	public String getValue() {
+		return this.value;
+	}
 }
