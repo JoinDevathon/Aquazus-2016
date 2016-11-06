@@ -121,7 +121,7 @@ public class ScriptEditor implements Listener {
 				}
 				if (event.getAction() == InventoryAction.PICKUP_HALF) {
 					event.setCancelled(true);
-					item.setType(Material.AIR);
+					menu.remove(item);
 				}
 			}
 		}
