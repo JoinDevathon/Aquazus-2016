@@ -34,6 +34,6 @@ public class LookAtLeft extends Instruction {
 	
 	@Override
 	public ItemStack getIcon() {
-		return this.generateIron(Material.ENDER_PEARL, 1, (short) 0, "§aLook at left", Arrays.asList("§e- Ask the bot to look at", "§ehis left"));
+		return this.generateIron(Material.IRON_HELMET, 1, (short) 0, "§aLook at left", Arrays.asList("§e- Ask the bot to look at", "§ehis left"));
 	}
 }

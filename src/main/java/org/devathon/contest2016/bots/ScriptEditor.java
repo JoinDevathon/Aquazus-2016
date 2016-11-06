@@ -1,5 +1,6 @@
 package org.devathon.contest2016.bots;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -63,6 +65,12 @@ public class ScriptEditor implements Listener {
 				item.setAmount(1);
 			}
 		}
+		ItemStack help = new ItemStack(Material.STAINED_GLASS_PANE, 64, (short) 8);
+		ItemMeta helpIm = help.getItemMeta();
+		helpIm.setDisplayName("§9Protip");
+		helpIm.setLore(Arrays.asList("§aRight-click = remove"));
+		help.setItemMeta(helpIm);
+		menu.setItem(53, help);
 		player.openInventory(menu);
 		instances.put(this.uuid, this);
 		Bukkit.getPluginManager().registerEvents(this, bot.plugin);
@@ -105,6 +113,12 @@ public class ScriptEditor implements Listener {
 					Instruction instruction = itemToRawInstruction.get(item).clone();
 					menu.addItem(instruction.getIcon());
 					itemToInstruction.put(instruction.getIcon(), instruction);
+				}
+			} else if (event.getClickedInventory().getName().equalsIgnoreCase("Script Editor")) {
+				ItemStack item = event.getCurrentItem();
+				if (event.getAction() == InventoryAction.PICKUP_HALF) {
+					event.setCancelled(true);
+					item.setType(Material.AIR);
 				}
 			}
 		}
