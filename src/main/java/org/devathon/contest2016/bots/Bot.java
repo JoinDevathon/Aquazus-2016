@@ -96,7 +96,7 @@ public class Bot implements Listener {
 		if (inv.getName().startsWith("State: ")) {
 			event.setCancelled(true);
 			if (clicked.getType() == Material.REDSTONE) {
-				//TODO: Open script editor
+				new ScriptEditor(player, this);
 			} else if (clicked.getType() == Material.NAME_TAG) {
 				//TODO: Rename bot
 			} else if (clicked.getType() == Material.TNT) {

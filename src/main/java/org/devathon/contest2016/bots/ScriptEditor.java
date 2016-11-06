@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -13,6 +14,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.devathon.contest2016.instructions.Instruction;
 import org.devathon.contest2016.instructions.Instructions;
 
@@ -39,9 +41,27 @@ public class ScriptEditor implements Listener {
 			menu.setItem(entry.getKey(), entry.getValue().getIcon());
 			itemToInstruction.put(entry.getValue().getIcon(), entry.getValue());
 		}
+		ItemStack none = new ItemStack(Material.STAINED_GLASS_PANE, 64, (short) 8);
+		ItemMeta noneIm = none.getItemMeta();
+		noneIm.setDisplayName("§7Empty");
+		none.setItemMeta(noneIm);
+		for (int i = 0; i < 9; i++) {
+			player.getInventory().setItem(i, none);
+		}
 		for (Instructions instructions : Instructions.values()) {
 			player.getInventory().addItem(instructions.getInstruction().getIcon());
 			itemToRawInstruction.put(instructions.getInstruction().getIcon(), instructions.getInstruction());
+		}
+		for (int i = 0; i < 28; i++) {
+			player.getInventory().addItem(none);
+		}
+		for (ItemStack item : player.getInventory().getContents()) {
+			if (item == null) {
+				continue;
+			}
+			if (item.getType() == Material.STAINED_GLASS_PANE) {
+				item.setAmount(1);
+			}
 		}
 		player.openInventory(menu);
 		instances.put(this.uuid, this);
@@ -56,7 +76,6 @@ public class ScriptEditor implements Listener {
 	
 	public void close() {
 		Player player = Bukkit.getPlayer(uuid);
-		player.closeInventory();
 		player.getInventory().clear();
 		player.getInventory().setContents(backup);
 		HashMap<Integer, Instruction> instructions = new HashMap<>();
