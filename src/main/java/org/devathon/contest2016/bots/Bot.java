@@ -168,6 +168,7 @@ public class Bot implements Listener {
 				rename = true;
 				player.sendMessage("§ePlease now type the name desired for your bot :");
 			} else if (clicked.getType() == Material.TNT) {
+				player.closeInventory();
 				remove();
 			} else if (clicked.getType() == Material.WOOL && clicked.getDurability() != (short) 15) {
 				if (clicked.getDurability() == (short) 5) {
